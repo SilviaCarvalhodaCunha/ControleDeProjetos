@@ -1,7 +1,10 @@
 import { NextFunction, Request, Response } from "express";
 import { QueryConfig, QueryResult } from "pg";
-import { IDevelopers, IDevelopersInfos } from "./interface";
-import { client } from "./database";
+import {
+  IDevelopers,
+  IDevelopersInfos,
+} from "../interfaces/developer.interface";
+import { client } from "../database";
 
 const checkEmailExists = async (
   req: Request,

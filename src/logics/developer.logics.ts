@@ -5,10 +5,10 @@ import {
   IDevelopersInfos,
   TDevelopersInfosRequest,
   TDevelopersRequest,
-} from "./interface";
+} from "../interfaces/developer.interface";
 import format from "pg-format";
 import { QueryConfig, QueryResult } from "pg";
-import { client } from "./database";
+import { client } from "../database";
 
 const registerDeveloper = async (
   req: Request,
@@ -18,9 +18,9 @@ const registerDeveloper = async (
 
   const queryString: string = format(
     `
-        INSERT INTO developers(%I)
-        VALUES(%L)
-        RETURNING *;
+      INSERT INTO developers(%I)
+      VALUES(%L)
+      RETURNING *;
     `,
     Object.keys(developerData),
     Object.values(developerData)
@@ -38,15 +38,15 @@ const listDeveloperProjects = async (
   const id: number = parseInt(req.params.id);
 
   const queryString: string = `
-        SELECT 
-            d.id AS "developerId",
-            d.name AS "developerName",
-            d.email AS "developerEmail",
-            di."developerSince" AS "developerInfoDeveloperSince",
-            di."preferredOS" AS "developerInfoPreferredOS"
-        FROM developers d
-        LEFT JOIN developer_infos di ON d.id = di."developerId"
-        WHERE d.id = $1;
+      SELECT 
+          d.id AS "developerId",
+          d.name AS "developerName",
+          d.email AS "developerEmail",
+          di."developerSince" AS "developerInfoDeveloperSince",
+          di."preferredOS" AS "developerInfoPreferredOS"
+      FROM developers d
+      LEFT JOIN developer_infos di ON d.id = di."developerId"
+      WHERE d.id = $1;
     `;
 
   const queryConfig: QueryConfig = {
@@ -71,11 +71,11 @@ const updateDevelopersData = async (
 
   const queryString: string = format(
     `
-            UPDATE developers
-            SET(%I) = ROW(%L)
-            WHERE id = $1
-            RETURNING *;
-        `,
+      UPDATE developers
+      SET(%I) = ROW(%L)
+      WHERE id = $1
+      RETURNING *;
+    `,
     Object.keys(developerData),
     Object.values(developerData)
   );
@@ -116,63 +116,23 @@ const registerAdditionalInformationDeveloper = async (
   res: Response
 ): Promise<Response> => {
   const developerData: TDevelopersInfosRequest = req.body;
-  developerData.developerId = parseInt(req.params.id)
+  developerData.developerId = parseInt(req.params.id);
 
   const queryString: string = format(
     `
-        INSERT INTO developer_infos(%I)
-        VALUES(%L)
-        RETURNING *;
+      INSERT INTO developer_infos(%I)
+      VALUES(%L)
+      RETURNING *;
     `,
     Object.keys(developerData),
     Object.values(developerData)
   );
 
-  const queryResult: QueryResult<IDevelopersInfos> = await client.query(queryString);
+  const queryResult: QueryResult<IDevelopersInfos> = await client.query(
+    queryString
+  );
 
   return res.status(201).json(queryResult.rows[0]);
-};
-
-const registerNewProject = async (
-  req: Request,
-  res: Response
-): Promise<Response> => {
-  return res.status(200).json();
-};
-
-const listProjectById = async (
-  req: Request,
-  res: Response
-): Promise<Response> => {
-  return res.status(200).json();
-};
-
-const updateProject = async (
-  req: Request,
-  res: Response
-): Promise<Response> => {
-  return res.status(200).json();
-};
-
-const deleteProject = async (
-  req: Request,
-  res: Response
-): Promise<Response> => {
-  return res.status(200).json();
-};
-
-const registerTechnologyProject = async (
-  req: Request,
-  res: Response
-): Promise<Response> => {
-  return res.status(200).json();
-};
-
-const deleteTechnologyProject = async (
-  req: Request,
-  res: Response
-): Promise<Response> => {
-  return res.status(200).json();
 };
 
 export {
@@ -180,5 +140,5 @@ export {
   listDeveloperProjects,
   updateDevelopersData,
   removeDeveloper,
-  registerAdditionalInformationDeveloper
+  registerAdditionalInformationDeveloper,
 };
