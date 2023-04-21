@@ -14,8 +14,8 @@ const checkEmailExists = async (
   const { email } = req.body;
 
   const queryString: string = `
-        SELECT * FROM developers
-        WHERE email = $1;
+      SELECT * FROM developers
+      WHERE email = $1;
     `;
 
   const queryConfig: QueryConfig = {
@@ -41,9 +41,9 @@ const checkIdExists = async (
   const id: number = parseInt(req.params.id);
 
   const queryString: string = `
-          SELECT * FROM developers
-          WHERE id = $1;
-      `;
+      SELECT * FROM developers
+      WHERE id = $1;
+    `;
 
   const queryConfig: QueryConfig = {
     text: queryString,
@@ -71,9 +71,9 @@ const informationAlreadyExists = async (
   const id: number = parseInt(req.params.id);
 
   const queryString: string = `
-          SELECT * FROM developer_infos
-          WHERE "developerId" = $1;
-      `;
+      SELECT * FROM developer_infos
+      WHERE "developerId" = $1;
+    `;
 
   const queryConfig: QueryConfig = {
     text: queryString,

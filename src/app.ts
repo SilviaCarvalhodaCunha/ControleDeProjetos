@@ -24,6 +24,8 @@ import {
 import {
   idExists,
   projectExists,
+  registeredTechnology,
+  technologyAssociatedProject,
   technologyExists,
 } from "./middlewares/project.middleware";
 
@@ -55,8 +57,15 @@ app.post(
   "/projects/:id/technologies",
   projectExists,
   technologyExists,
+  registeredTechnology,
   registerTechnologyProject
 );
-app.delete("/projects/:id/technologies/:name", deleteTechnologyProject);
+app.delete(
+  "/projects/:id/technologies/:name",
+  projectExists,
+  technologyExists,
+  technologyAssociatedProject,
+  deleteTechnologyProject
+);
 
 export default app;

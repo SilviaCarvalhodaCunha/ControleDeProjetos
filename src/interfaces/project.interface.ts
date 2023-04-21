@@ -1,26 +1,51 @@
 interface IProject {
-    id: number,
-    name: string,
-    description: string,
-    estimatedTime: string,
-    repository: string,
-    startDate: Date,
-    endDate: Date | null,
-    developerId: number
+  id: number;
+  name: string;
+  description: string;
+  estimatedTime: string;
+  repository: string;
+  startDate: Date;
+  endDate: Date | null;
+  developerId: number;
 }
 
-type TProjectRequest = Omit<IProject, 'id'>
+type TProjectRequest = Omit<IProject, "id">;
 
 interface ITechnologyProject extends IProject {
-    technologyId: number | null,
-    technologyName: string | null
+  technologyId: number | null;
+  technologyName: string | null;
 }
 
 interface ITechnology {
-    id: number,
-    name: string
+  id: number;
+  name: string;
 }
 
-type TTechnologyRequest = Omit<IProject, 'id'>
+type TTechnologyRequest = Omit<IProject, "id">;
 
-export { IProject, TProjectRequest, ITechnologyProject, ITechnology, TTechnologyRequest }
+interface IProjectTechnology {
+  addedIn: Date;
+  technologyId: number;
+  projectId: number;
+}
+
+interface ITechnologyProject {
+  technologyId: number | null;
+  technologyName: string | null;
+  projectId: number;
+  projectName: string;
+  projectDescription: string;
+  projectEstimatedTime: string;
+  projectRepository: string;
+  projectStartDate: Date;
+  projectEndDate: Date;
+}
+
+export {
+  IProject,
+  TProjectRequest,
+  ITechnologyProject,
+  ITechnology,
+  TTechnologyRequest,
+  IProjectTechnology,
+};
